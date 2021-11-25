@@ -11,14 +11,11 @@
     }
 %}
 
-%token _SEMICOLON _COMMA _DOT _STAR _LBRACKET _RBRACKET _LBRACE _RBRACE _LPAREN _RPAREN _EOF_
-%token _IMPORT _TYPE _CLASS _EXTENDS _TITLE _ID _BOOLOP _RELOP _OP _UNOP _ACC_MOD _NON_ACC_MOD
+%token _SEMICOLON _COMMA _DOT _STAR _LBRACKET _RBRACKET _LBRACE _RBRACE _LPAREN _RPAREN _ENDOFFILE
+%token _IMPORT _LIBRARY _TYPE _CLASS _EXTENDS _TITLE _ID _BOOLOP _RELOP _OP _UNOP _ACC_MOD _NON_ACC_MOD
 %token _IS _SIGN _NUM _DOUBLE _CHAR _NCHAR _STRING _RETURN _BREAK _CONTINUE _IF _ELSE _WHILE _FOR _SWITCH _CASE _DEFAULT _COLON _TRY _CATCH _FINALLY
 %%
-start   : declarations _EOF_ ;
-
-
-
+start   : declarations _ENDOFFILE ;
 
 declarations    : declarations modifiers methodDeclaration
                 | declarations modifiers dataDeclaration
@@ -49,7 +46,8 @@ forloop             : _FOR _LPAREN stat1 _SEMICOLON stat2 _SEMICOLON stat3 _RPAR
 stat1               : assignment | idlestatement | data_forloop |;
 stat2               : assignment | idlestatement | conditions | ;
 stat3               : derived _IS initialized | value | ;
-data_forloop        : modifiers type names ;
+data_forloop        : modifiers type names ;// | type names  | _CONST _MODIFIER type names  | _MODIFIER _CONST type names  | _CONST type names | ;
+
 
 conditions          : conditions _BOOLOP condition | _LPAREN conditions _RPAREN | condition | ;
 condition           : _LPAREN conditions _RPAREN | _LPAREN condition _RPAREN | relation _RELOP relation | relation ;
