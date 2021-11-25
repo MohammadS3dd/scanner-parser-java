@@ -11,11 +11,11 @@
     }
 %}
 
-%token _SEMICOLON _COMMA _DOT _STAR _LBRACKET _RBRACKET _LBRACE _RBRACE _LPAREN _RPAREN _EOF_
+%token _SEMICOLON _COMMA _DOT _STAR _LBRACKET _RBRACKET _LBRACE _RBRACE _LPAREN _RPAREN _ENDOFFILE
 %token _IMPORT _TYPE _CLASS _EXTENDS _TITLE _ID _BOOLOP _RELOP _OP _UNOP _ACC_MOD _NON_ACC_MOD
 %token _IS _SIGN _NUM _DOUBLE _CHAR _NCHAR _STRING _RETURN _BREAK _CONTINUE _IF _ELSE _WHILE _FOR _SWITCH _CASE _DEFAULT _COLON _TRY _CATCH _FINALLY
 %%
-start   : declarations _EOF_ ;
+start   : declarations _ENDOFFILE ;
 
 
 
@@ -29,7 +29,7 @@ methodDeclaration   : type name _LPAREN methodParameters _RPAREN _LBRACE methodD
 methodParameters    : methodParameters _COMMA type name | type name | ;
 methodDefinition    : statements ;
 statements          : statements statement | statement | ;
-statement           : if_else | whileloop | forloop | breakstatement | returnstatement | assignment | idlestatement  
+statement           : ifelse | whileloop | forloop | breakstatement | returnstatement | assignment | idlestatement  
 
 
 idlestatement       : value _SEMICOLON ;
@@ -38,9 +38,9 @@ breakstatement      : _BREAK _SEMICOLON ;
 breakstatement      : _CONTINUE _SEMICOLON ;
 assignment          : derived _IS initialized _SEMICOLON ;
 
-if_else              : if_statement ;
-if_statement         : _IF _LPAREN conditions _RPAREN body elseif_statement ;
-elseif_statement     : elseif_statement _ELSE _IF _LPAREN conditions _RPAREN body | _ELSE _IF _LPAREN conditions _RPAREN body | elsestatement ;
+ifelse              : ifstatement ;
+ifstatement         : _IF _LPAREN conditions _RPAREN body elseifstatement ;
+elseifstatement     : elseifstatement _ELSE _IF _LPAREN conditions _RPAREN body | _ELSE _IF _LPAREN conditions _RPAREN body | elsestatement ;
 elsestatement       : _ELSE body | ;
 
 whileloop           : _WHILE _LPAREN conditions _RPAREN body ;
